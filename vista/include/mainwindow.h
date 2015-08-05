@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include <QTableWidgetItem>
-#include <QRect>
+#include <QHeaderView>
 #include <QDesktopWidget>
 
 #include "stats.h"
@@ -16,22 +16,31 @@ class MainWindow;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+signals:
+    void cambiarVistaEstadisticas();
+
 private slots:
     void on_openFile_clicked();
 
-    void on_section_Clicked(int section);
+    void on_nextButton_clicked();
+
+    void on_addVariableButton_clicked();
+
+    void on_delVariableButton_clicked();
 
 private:
     Ui::MainWindow *ui;
 
-    QHeaderView *tableHeader;
-
     CsvData *data;
+
+    QHeaderView *horizontalAval, *verticalAval;
+    QHeaderView *horizontalSel, *verticalSel;
+
+    int selectedItemRow;
 };
 
 #endif // MAINWINDOW_H
