@@ -28,21 +28,21 @@
           </widget>
          </item>
          <item>
-          <widget class="QRadioButton" name="radioButton">
+          <widget class="QRadioButton" name="eucli">
            <property name="text">
             <string>Euclidean</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QRadioButton" name="radioButton_2">
+          <widget class="QRadioButton" name="diagonal">
            <property name="text">
             <string>Diagonal</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QRadioButton" name="radioButton_3">
+          <widget class="QRadioButton" name="maha">
            <property name="text">
             <string>Mahalanobis</string>
            </property>

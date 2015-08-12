@@ -7,8 +7,8 @@ AlgoritmoVista::AlgoritmoVista(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setGeometry(QStyle::alignedRect(Qt::LeftToRight,Qt::AlignCenter,
-                                          this->size(),
-                                          qApp->desktop()->availableGeometry()));
+                                         this->size(),
+                                         qApp->desktop()->availableGeometry()));
 }
 
 AlgoritmoVista::~AlgoritmoVista()

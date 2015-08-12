@@ -17,16 +17,16 @@ MainWindow::MainWindow(QWidget *parent) :
                                           qApp->desktop()->availableGeometry()));
     this->selectedItemRow = 0;
 
-    horizontalAval = ui->avalvars->horizontalHeader();
-    verticalAval = ui->avalvars->verticalHeader();
-    horizontalSel = ui->selvars->horizontalHeader();
-    verticalSel = ui->selvars->verticalHeader();
+    this->horizontalAval = ui->avalvars->horizontalHeader();
+    this->verticalAval = ui->avalvars->verticalHeader();
+    this->horizontalSel = ui->selvars->horizontalHeader();
+    this->verticalSel = ui->selvars->verticalHeader();
 
-    horizontalAval->hide();
-    verticalAval->hide();
+    this->horizontalAval->hide();
+    this->verticalAval->hide();
 
-    horizontalSel->hide();
-    verticalSel->hide();
+    this->horizontalSel->hide();
+    this->verticalSel->hide();
 }
 
 MainWindow::~MainWindow()
@@ -67,23 +67,45 @@ void MainWindow::on_openFile_clicked()
 
 void MainWindow::on_nextButton_clicked()
 {
-    this->hide();
-    emit cambiarVistaEstadisticas();
+    if(ui->selvars->rowCount() > 0){
+        this->hide();
+        QStringList list;
+        for(int i = 0; i < ui->selvars->rowCount(); i++){
+            qDebug() << ui->selvars->item(i,0)->text();
+            list.append(ui->selvars->item(i,0)->text());
+         }
+         emit cambiarVistaEstadisticas(list);
+    }else
+    {
+        qDebug()<< "No selecciono items para procesar.";
+    }
 
 }
 
 void MainWindow::on_addVariableButton_clicked()
 {
-    this->selectedItemRow++;
-    ui->selvars->insertRow(this->selectedItemRow-1);
-    ui->selvars->setRowCount(this->selectedItemRow);
-    ui->selvars->setItem(this->selectedItemRow-1,0,
-                         new QTableWidgetItem(ui->avalvars->currentItem()->text()));
+    if(ui->avalvars->selectedItems().size() < 2 &&
+            ui->avalvars->selectedItems().size() > 0)
+    {
+        int row = ui->selvars->rowCount();
+        if(row >= 0)
+        {
+            ui->selvars->insertRow(row);
+            ui->selvars->setItem(row,0,
+                 new QTableWidgetItem(ui->avalvars->currentItem()->text()));
+        }
+    }
+    else
+    {
+        qDebug()<< "Debe seleccionar solo un item";
+    }
 }
 
 void MainWindow::on_delVariableButton_clicked()
 {
-
-    this->selectedItemRow--;
-    ui->selvars->removeRow(ui->avalvars->currentItem()->row());
+    if(ui->selvars->selectedItems().size() < 2 &&
+            ui->selvars->selectedItems().size() > 0 )
+        ui->selvars->removeRow(ui->selvars->currentItem()->row());
+    else
+        qDebug() << "Debe seleccionar solo un item para eliminar.";
 }

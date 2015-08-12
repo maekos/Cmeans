@@ -16,6 +16,12 @@ EstadisticasVista::~EstadisticasVista()
     delete ui;
 }
 
+void EstadisticasVista::mostrarVistaEstadistica(QStringList selectedVectors)
+{
+    this->show();
+
+}
+
 void EstadisticasVista::on_nextButton_clicked()
 {
     this->hide();

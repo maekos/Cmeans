@@ -16,13 +16,14 @@ using namespace Clustering;
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+
     MainWindow mw;
     EstadisticasVista ev;
     AlgoritmoVista av;
 
 
-    QObject::connect(&mw, SIGNAL(cambiarVistaEstadisticas()),
-                     &ev, SLOT(show()));
+    QObject::connect(&mw, SIGNAL(cambiarVistaEstadisticas(QStringList)),
+                     &ev, SLOT(mostrarVistaEstadistica(QStringList)));
     QObject::connect(&ev, SIGNAL(cambiarVistaAlgortimo()),
                      &av, SLOT(show()));
 

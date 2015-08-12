@@ -5,6 +5,7 @@
 #include <QTableWidgetItem>
 #include <QHeaderView>
 #include <QDesktopWidget>
+#include <QStringList>
 
 #include "stats.h"
 #include "csvdata.h"
@@ -21,7 +22,7 @@ public:
     ~MainWindow();
 
 signals:
-    void cambiarVistaEstadisticas();
+    void cambiarVistaEstadisticas(QStringList);
 
 private slots:
     void on_openFile_clicked();

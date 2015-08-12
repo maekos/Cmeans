@@ -16,6 +16,9 @@ public:
     explicit EstadisticasVista(QWidget *parent = 0);
     ~EstadisticasVista();
 
+public slots:
+    void mostrarVistaEstadistica(QStringList selectedVectors);
+
 signals:
     void cambiarVistaAlgortimo();
 
