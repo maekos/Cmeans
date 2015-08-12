@@ -18,18 +18,11 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     MainWindow mw;
-    EstadisticasVista ev;
-    AlgoritmoVista av;
-
-
-    QObject::connect(&mw, SIGNAL(cambiarVistaEstadisticas(QStringList)),
-                     &ev, SLOT(mostrarVistaEstadistica(QStringList)));
-    QObject::connect(&ev, SIGNAL(cambiarVistaAlgortimo()),
-                     &av, SLOT(show()));
+//
+  //  QObject::connect(&ev, SIGNAL(cambiarVistaAlgortimo()),
+    //                 &av, SLOT(show()));
 
     mw.show();
-    //CsvData csv("lote.csv");
-
     return a.exec();
 
 }

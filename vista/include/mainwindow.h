@@ -7,6 +7,7 @@
 #include <QDesktopWidget>
 #include <QStringList>
 
+#include "estadisticasvista.h"
 #include "stats.h"
 #include "csvdata.h"
 
@@ -21,27 +22,19 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-signals:
-    void cambiarVistaEstadisticas(QStringList);
-
 private slots:
     void on_openFile_clicked();
-
     void on_nextButton_clicked();
-
     void on_addVariableButton_clicked();
-
     void on_delVariableButton_clicked();
 
 private:
     Ui::MainWindow *ui;
-
+    EstadisticasVista *ev;
     CsvData *data;
-
     QHeaderView *horizontalAval, *verticalAval;
     QHeaderView *horizontalSel, *verticalSel;
-
-    int selectedItemRow;
+    int selectedItemRow;    
 };
 
 #endif // MAINWINDOW_H

@@ -3,6 +3,15 @@
 
 #include <QWidget>
 #include <QDesktopWidget>
+#include <QString>
+#include <QStringList>
+#include <QDebug>
+
+#include <boost/numeric/ublas/matrix.hpp>
+#include "csvdata.h"
+
+typedef float Value;
+typedef boost::numeric::ublas::matrix<Value> Matrix;
 
 namespace Ui {
 class VistaEstadisticas;
@@ -13,7 +22,7 @@ class EstadisticasVista : public QWidget
     Q_OBJECT
 
 public:
-    explicit EstadisticasVista(QWidget *parent = 0);
+    explicit EstadisticasVista(CsvData *data, QWidget *parent = 0);
     ~EstadisticasVista();
 
 public slots:
@@ -27,6 +36,10 @@ private slots:
 
 private:
     Ui::VistaEstadisticas *ui;
+
+    CsvData *data;
+
+    Matrix matriz;
 };
 
 #endif // VISTAESTADISTICAS_H

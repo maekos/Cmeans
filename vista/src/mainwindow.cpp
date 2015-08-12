@@ -4,6 +4,8 @@
 
 #include <QFileDialog>
 #include <QHeaderView>
+#include <QMessageBox>
+
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -34,12 +36,18 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+/**
+ * @brief MainWindow::on_openFile_clicked
+ * Al presionar el boton se abre un cuadro de dialogo para seleccion de un
+ * archivo .csv que permite el procesamiento de los datos.
+ */
 void MainWindow::on_openFile_clicked()
 {
 
     QString fileName;
     QStringList columnNames;
 
+    /* ajusto las columnas al ancho de la tabla */
     horizontalAval->setStretchLastSection(true);
     horizontalSel->setStretchLastSection(true);
 
@@ -47,9 +55,10 @@ void MainWindow::on_openFile_clicked()
 
     fileName = QFileDialog::getOpenFileName(this,tr("Open file"), "./",
                                             tr("Csv Files (*.csv)"));
-    data = new CsvData(fileName);
+    this->data = new CsvData(fileName);
+    this->ev = new EstadisticasVista(this->data);
 
-    columnNames = data->getColumnNames();
+    columnNames = this->data->getColumnNames();
 
     columnSize = columnNames.size();
 
@@ -57,31 +66,50 @@ void MainWindow::on_openFile_clicked()
 
     ui->numberOfFields->setText(QString::number(columnSize));
 
-    ui->avalvars->setColumnCount(1); // coloco columnas
-    ui->selvars->setColumnCount(1); // coloco columnas
-    ui->avalvars->setRowCount(columnSize);  // coloco filas
+    /* Armo las tablas */
+    ui->avalvars->setColumnCount(1); // Coloco columnas para las variables
+                                     // disponibles
+    ui->avalvars->setRowCount(columnSize);  // Coloco filas del tamano de las
+                                            // variables.
 
+    ui->selvars->setColumnCount(1); // coloco columnas
+
+    /* Inserto las variables seleccionadas en la tabla */
     for(int i = 0; i < columnSize; i++)
         ui->avalvars->setItem(i,0, new QTableWidgetItem(columnNames.at(i)));
 }
 
+/**
+ * @brief MainWindow::on_nextButton_clicked
+ * Se verifica que se hayan seleccionado las variables para procesar y se
+ * pasa a la pantalla para generar las estadisticas de las mismas.
+ */
 void MainWindow::on_nextButton_clicked()
 {
     if(ui->selvars->rowCount() > 0){
+        /* Oculto la vista principal */
         this->hide();
+        /* Obtengo la lista de variables seleccionadas */
         QStringList list;
         for(int i = 0; i < ui->selvars->rowCount(); i++){
-            qDebug() << ui->selvars->item(i,0)->text();
             list.append(ui->selvars->item(i,0)->text());
-         }
-         emit cambiarVistaEstadisticas(list);
-    }else
-    {
-        qDebug()<< "No selecciono items para procesar.";
+        }
+        /* Cambio a la vista de estadisticas */
+        this->ev->mostrarVistaEstadistica(list);
     }
-
+    else
+    {
+        /* Caja de dialogo con un mensaje de error */
+        QMessageBox(QMessageBox::Critical,"ERROR","No selecciono items para procesar.").exec();
+    }
 }
 
+/**
+ * @brief MainWindow::on_addVariableButton_clicked
+ * Una vez seleccionada una variable en la tabla avalvars con este boton se la
+ * coloca en la tabla selvars. En esta columna se encuentran todas las variables
+ * que se procesaran con el algoritmo.
+ */
 void MainWindow::on_addVariableButton_clicked()
 {
     if(ui->avalvars->selectedItems().size() < 2 &&
@@ -92,20 +120,27 @@ void MainWindow::on_addVariableButton_clicked()
         {
             ui->selvars->insertRow(row);
             ui->selvars->setItem(row,0,
-                 new QTableWidgetItem(ui->avalvars->currentItem()->text()));
+                                 new QTableWidgetItem(ui->avalvars->currentItem()->text()));
         }
     }
     else
     {
-        qDebug()<< "Debe seleccionar solo un item";
+        QMessageBox(QMessageBox::Information,"INFORMACION","Debe seleccionar"
+                    " solo un item a la vez.").exec();;
     }
 }
 
+/**
+ * @brief MainWindow::on_delVariableButton_clicked
+ * Una vez seleccionada solo una variable de la columna selvars se elimina de
+ * dicha columna una vez que se presiona este boton.
+ */
 void MainWindow::on_delVariableButton_clicked()
 {
     if(ui->selvars->selectedItems().size() < 2 &&
             ui->selvars->selectedItems().size() > 0 )
         ui->selvars->removeRow(ui->selvars->currentItem()->row());
     else
-        qDebug() << "Debe seleccionar solo un item para eliminar.";
+        QMessageBox(QMessageBox::Information,"INFORMACION","Debe seleccionar"
+                    " solo un item a la vez.").exec();;
 }

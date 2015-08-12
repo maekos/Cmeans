@@ -5,6 +5,7 @@
 #include <QStringList>
 #include <QByteArray>
 #include <QFile>
+#include <QMap>
 #include <QDebug>
 
 /**
@@ -20,25 +21,19 @@ class CsvData
 {
 private:
 
-    QFile file; /**< Archivo de datos */
+    QFile file;                                         /**< Archivo de datos */
 
-    QStringList columnNames; /**< Lista con el nombre de las columnas */
+    QStringList columnNames;         /**< Lista con el nombre de las columnas */
 
-    int rows;
+    int rows;                              /**< Cantidad de filas del archivo */
 
-    int columns;
+    int columns;                        /**< Cantidad de columnas del archivo */
+
+    QMap<QString,int> map;    /**< Para mapear el nombre de la columna con el */
+                              /*<  numero */
 
 public:
 
-    /**
-     * @brief Constructor de la clase
-     *
-     * @param file Nombre del archivo a utilizar.
-     *
-     * @warning El nombre del archivo se toma en el lugar en donde se encuentra
-     * el ejecutable del programa (Path relativo) .
-     *
-     */
     CsvData(QString file);
 
     /**
@@ -49,27 +44,11 @@ public:
      */
     ~CsvData();
 
-    /**
-     * @brief Devuelve una lista con el nombre de las columnas.
-     *
-     *  A partir de la lectura del archivo obtiene la primera linea que supone
-     *  contiene el nombre de las columnas y devuelve una lista con los nombres
-     *  ordenadas.
-     *
-     * @return Lista de Strings con el nombre de las columnas del archivo
-     *        abierto.
-     */
     QStringList getColumnNames();
-
-    /**
-     * @brief Obtiene una lista con los datos de la columna.
-     *
-     * Devuelve una lista con todos los datos en la columna @par column que es
-     * un numero que se le pasa como parametro.
-     *
-     * @return Lista de datos de la columna.
-     */
-    QStringList getColumnData(int column);
+    QStringList getDataAt(int column);
+    QStringList getDataFrom(const QString columnName);
+    int getColumnCount();
+    int getRowCount();
 };
 
 #endif // CSVDATA_H
