@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
 
     MainWindow mw;
 //
-  //  QObject::connect(&ev, SIGNAL(cambiarVistaAlgortimo()),
+    //QObject::connect(&ev, SIGNAL(cambiarVistaAlgortimo()),
     //                 &av, SLOT(show()));
 
     mw.show();

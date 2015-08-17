@@ -19,29 +19,9 @@
  */
 class CsvData
 {
-private:
-
-    QFile file;                                         /**< Archivo de datos */
-
-    QStringList columnNames;         /**< Lista con el nombre de las columnas */
-
-    int rows;                              /**< Cantidad de filas del archivo */
-
-    int columns;                        /**< Cantidad de columnas del archivo */
-
-    QMap<QString,int> map;    /**< Para mapear el nombre de la columna con el */
-                              /*<  numero */
-
 public:
 
     CsvData(QString file);
-
-    /**
-     * @brief Destructor
-     *
-     * Debe cerrar el archivo abierto para ser manipulado.
-     *
-     */
     ~CsvData();
 
     QStringList getColumnNames();
@@ -49,6 +29,15 @@ public:
     QStringList getDataFrom(const QString columnName);
     int getColumnCount();
     int getRowCount();
+
+private:
+
+    QFile file;                                         /**< Archivo de datos */
+    QStringList columnNames;         /**< Lista con el nombre de las columnas */
+    int rows;                              /**< Cantidad de filas del archivo */
+    int columns;                        /**< Cantidad de columnas del archivo */
+    QMap<QString,int> map;    /**< Para mapear el nombre de la columna con el */
+                                                                  /*<  numero */
 };
 
 #endif // CSVDATA_H

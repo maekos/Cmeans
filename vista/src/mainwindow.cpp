@@ -43,8 +43,6 @@ MainWindow::~MainWindow()
  */
 void MainWindow::on_openFile_clicked()
 {
-
-    QString fileName;
     QStringList columnNames;
 
     /* ajusto las columnas al ancho de la tabla */
@@ -95,6 +93,7 @@ void MainWindow::on_nextButton_clicked()
             list.append(ui->selvars->item(i,0)->text());
         }
         /* Cambio a la vista de estadisticas */
+        this->ev->inputFile(this->fileName);
         this->ev->mostrarVistaEstadistica(list);
     }
     else

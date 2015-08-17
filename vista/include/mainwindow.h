@@ -34,7 +34,8 @@ private:
     CsvData *data;
     QHeaderView *horizontalAval, *verticalAval;
     QHeaderView *horizontalSel, *verticalSel;
-    int selectedItemRow;    
+    int selectedItemRow;
+    QString fileName;
 };
 
 #endif // MAINWINDOW_H

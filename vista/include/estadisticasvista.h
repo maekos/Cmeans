@@ -7,11 +7,17 @@
 #include <QStringList>
 #include <QDebug>
 
+#include "fuzzy_clustering.hpp"
+
 #include <boost/numeric/ublas/matrix.hpp>
+#include <boost/numeric/ublas/vector.hpp>
+
 #include "csvdata.h"
+#include "algoritmovista.h"
 
 typedef float Value;
 typedef boost::numeric::ublas::matrix<Value> Matrix;
+typedef boost::numeric::ublas::vector<Value> Vector;
 
 namespace Ui {
 class VistaEstadisticas;
@@ -25,6 +31,8 @@ public:
     explicit EstadisticasVista(CsvData *data, QWidget *parent = 0);
     ~EstadisticasVista();
 
+    void inputFile(const QString file);
+
 public slots:
     void mostrarVistaEstadistica(QStringList selectedVectors);
 
@@ -34,12 +42,16 @@ signals:
 private slots:
     void on_nextButton_clicked();
 
+    void on_estadisticasBoton_clicked();
+
 private:
     Ui::VistaEstadisticas *ui;
 
     CsvData *data;
 
     Matrix matriz;
+
+    AlgoritmoVista av;
 };
 
 #endif // VISTAESTADISTICAS_H

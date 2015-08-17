@@ -15,3 +15,36 @@ AlgoritmoVista::~AlgoritmoVista()
 {
     delete ui;
 }
+
+void AlgoritmoVista::on_eucli_clicked()
+{
+    if(!ui->eucli->isChecked()){
+        ui->maha->setChecked(false);
+        ui->diagonal->setChecked(false);
+    }
+}
+
+void AlgoritmoVista::on_diagonal_clicked()
+{
+    if(!ui->diagonal->isChecked()){
+        ui->maha->setChecked(false);
+        ui->eucli->setChecked(false);
+    }
+}
+
+void AlgoritmoVista::on_maha_clicked()
+{
+    if(!ui->maha->isChecked()){
+        ui->eucli->setChecked(false);
+        ui->diagonal->setChecked(false);
+    }
+}
+
+void AlgoritmoVista::on_clasificarBoton_clicked()
+{
+    fuzzines = ui->fuzzyExponent->text().toFloat();
+
+    cluster = ui->maxZones->text().toInt() - ui->minZones->text().toInt();
+
+    epsilon = ui->convergenceCriteria->text().toFloat();
+}

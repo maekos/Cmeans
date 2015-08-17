@@ -37,6 +37,12 @@ CsvData::CsvData(QString file)
     this->file.seek(0);
 }
 
+/**
+ * @brief Destructor
+ *
+ * Debe cerrar el archivo abierto para ser manipulado.
+ *
+ */
 CsvData::~CsvData()
 {
     this->file.close();

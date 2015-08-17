@@ -8,16 +8,15 @@
 
 namespace Clustering{
 
-  typedef float Value;
-  typedef unsigned int Index;
-  typedef boost::numeric::ublas::vector<Value> Vector;
-  typedef boost::numeric::ublas::zero_vector<Value> ZeroVector;
-  typedef boost::numeric::ublas::matrix<Value> Matrix;
-  typedef boost::numeric::ublas::zero_matrix<Value> ZeroMatrix;
+typedef float Value;
+typedef unsigned int Index;
+typedef boost::numeric::ublas::vector<Value> Vector;
+typedef boost::numeric::ublas::zero_vector<Value> ZeroVector;
+typedef boost::numeric::ublas::matrix<Value> Matrix;
+typedef boost::numeric::ublas::zero_matrix<Value> ZeroMatrix;
 
-  class Fuzzy{
-  public:
-
+class Fuzzy{
+public:
     //
     // Notation
     //
@@ -26,90 +25,62 @@ namespace Clustering{
     //   f  -> is used for dimension (feature)
     //
     Fuzzy(Matrix& rows, Index number_clusters,
-      Value fuzziness = 1.3, Value epsilon=0.0001):
-
-      // fuzzyness
-      m_(fuzziness),
-
-      // epsislon
-      epsilon_(epsilon),
-
-      // number clusters
-      number_clusters_(number_clusters),
-
-      // number points
-      number_points_(rows.size1()),
-
-      // dimension of a point
-      size_of_a_point_(rows.size2()),
-
-      // we have num_clusters centroids
-      p_centroids_(new Matrix(number_clusters, size_of_a_point_)),
-      //                      number_clusters X rows.size2()
-
-      // each row is member of a cluster to some extent
-      p_membership_(new Matrix(number_clusters_, number_points_)),
-      //                       number_clusters X rows.size1()
-
-      // each row is member of a cluster to some extent
-      p_new_membership_(new Matrix(number_clusters_, number_points_)),
-      //                       number_clusters X rows.size1()
-
-      // preserve the dataset
-      rows_(rows)
+          Value fuzziness = 1.3, Value epsilon=0.0001):
+        m_(fuzziness), // fuzzyness
+        epsilon_(epsilon), // epsilon
+        number_clusters_(number_clusters), // number clusters
+        number_points_(rows.size1()), // number points
+        size_of_a_point_(rows.size2()), // dimension of a point
+        p_centroids_(new Matrix(number_clusters, size_of_a_point_)), // we have num_clusters centroids
+        //                      number_clusters X rows.size2()
+        // each row is member of a cluster to some extent
+        p_membership_(new Matrix(number_clusters_, number_points_)),
+        //                       number_clusters X rows.size1()
+        // each row is member of a cluster to some extent
+        p_new_membership_(new Matrix(number_clusters_, number_points_)),
+        //                       number_clusters X rows.size1()
+        // preserve the dataset
+        rows_(rows)
     {
-      // random membership for each row
-      //
-      float normalization_factor;
+        // random membership for each row
+        //
+        float normalization_factor;
 
-      for (Index i = 0 ; i < number_points_; i++){
-    normalization_factor = 0.0;
-    for (Index j = 0; j < number_clusters; j++)
-      normalization_factor +=
-        (*p_membership_)(j, i) = (rand() / (RAND_MAX + 0.0));
-    for (Index j = 0; j < number_clusters; j++)
-      (*p_membership_)(j, i) /= normalization_factor;
-      }
-      std::cout << "Fuzzy membership (n_clusters X n_points)" << std::endl
-        << " " << (*p_membership_) << std::endl;
+        for (Index i = 0 ; i < number_points_; i++){
+            normalization_factor = 0.0;
+            for (Index j = 0; j < number_clusters; j++)
+                normalization_factor +=
+                        (*p_membership_)(j, i) = (rand() / (RAND_MAX + 0.0));
+            for (Index j = 0; j < number_clusters; j++)
+                (*p_membership_)(j, i) /= normalization_factor;
+        }
+        std::cout << "Fuzzy membership (n_clusters X n_points)" << std::endl
+                  << " " << (*p_membership_) << std::endl;
 
-      computeCentroids();
+        computeCentroids();
     };
 
-    // compute centroids
-    //
     void computeCentroids();
+
     void computeCentroids2();
 
-
-    // update membership
-    //
-    //  @param  Value fuzziness
-    //
     bool updateMembership();
 
-    // stop criteria
-    //
-    //  @param epsilon
-    //
     inline bool can_stop()
     {
-      Value t = norm_1( (*p_membership_)-(*p_new_membership_) );
-      std::cout << " norm t = " << t << std::endl;
-      return  t < epsilon_;
+        Value t = norm_1( (*p_membership_)-(*p_new_membership_) );
+        std::cout << " norm t = " << t << std::endl;
+        return  t < epsilon_;
     }
 
-    //
-    // clustering
-    //
-    inline void clustering(unsigned int num_iteration=100){
+    inline void clustering(unsigned int num_iteration=300){
 
-      unsigned int iteration = 0;
-      while (!updateMembership() && iteration++ < num_iteration)
-    computeCentroids2();
+        unsigned int iteration = 0;
+        while (!updateMembership() && iteration++ < num_iteration)
+            computeCentroids2();
     }
 
-  private:
+private:
 
     Value m_;                // fuzzyness
     Value epsilon_;                 // epsilon convergence
@@ -123,7 +94,7 @@ namespace Clustering{
     Matrix * p_new_membership_;      // new membership
     Matrix& rows_;                  // dataset
 
-  };
+};
 };
 #endif
 
