@@ -47,6 +47,8 @@ private slots:
 private:
     Ui::VistaEstadisticas *ui;
 
+    QStringList columns;
+
     CsvData *data;
 
     Matrix matriz;

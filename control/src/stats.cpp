@@ -11,8 +11,9 @@ Stats::Stats(Vector *v)
     if(v->size() > 0)
     {
         this->media = Media(v);
+        this->desviacionStd = this->desviacionEstandar(v);
         this->varianza = Varianza(v);
-        this->covarianza = Covarianza(v,v,this->media, this->media);
+        this->covarianza = Covarianza(v,v);
         this->maxNumber = maximo(v);
         this->minNumber = minimo(v);
         this->sumaCuadrados = sumaDeCuadrados(v);
@@ -65,8 +66,10 @@ float Stats::Varianza(Vector *v)
  * @param v vector al cual le calcula la covarianza
  * @return
  */
-float Stats::Covarianza(Vector *v1, Vector *v2, float mediav1, float mediav2)
+float Stats::Covarianza(Vector *v1, Vector *v2)
 {
+    float mediav1 = Stats::Media(v1);
+    float mediav2 = Stats::Media(v2);
     float cov = 0;
     for(int i = 0; i < v1->size(); i++)
     {
@@ -117,12 +120,31 @@ float Stats::sumaDeCuadrados(Vector *v)
 }
 
 /**
+ * @brief Stats::desviacionEstandar
+ * @param v
+ * @return
+ */
+float Stats::desviacionEstandar(Vector *v)
+{
+   return float(sqrt(Stats::Varianza(v)));
+}
+
+/**
  * @brief getMedia
  * @return
  */
 float Stats::getMedia() const
 {
     return media;
+}
+
+/**
+ * @brief Stats::getDesviacionEstandar
+ * @return
+ */
+float Stats::getDesviacionEstandar() const
+{
+    return (this->desviacionStd);
 }
 
 /**

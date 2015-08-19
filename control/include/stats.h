@@ -44,13 +44,14 @@ public:
 
     static float Media(Vector* v);
     static float Varianza(Vector* v);
-    static float Covarianza(Vector* v1, Vector *v2, float mediav1,
-                            float mediav2);
+    static float Covarianza(Vector* v1, Vector *v2);
     static float minimo(Vector* v);
     static float maximo(Vector *v);
     static float sumaDeCuadrados(Vector *v);
+    static float desviacionEstandar(Vector *v);
 
     float getMedia() const;
+    float getDesviacionEstandar() const;
     float getVarianza() const;
     float getCovarianza() const;
     float getMinNumber() const;
@@ -60,6 +61,7 @@ public:
 private:
 
     float media; /*<*/
+    float desviacionStd; /*<*/
     float varianza; /*<*/
     float covarianza; /*<*/
     float minNumber; /*<*/
