@@ -157,13 +157,20 @@ void EstadisticasVista::on_estadisticasBoton_clicked()
                     QString::number(sta[i]->getDesviacionEstandar()) + "\t\t");
     }
 
-    this->ui->plainTextEdit->insertPlainText("\n\nCoefficient of variation\n");
+    this->ui->plainTextEdit->insertPlainText("\n\nCoefficient of variation (%)\n");
     foreach(const QString col, this->columns)
     {
         this->ui->plainTextEdit->insertPlainText(col + "\t\t");
     }
     this->ui->plainTextEdit->insertPlainText("\n");
-
+    for(int i = 0; i< matriz.size1();i++)
+    {
+        this->ui->plainTextEdit->
+                insertPlainText(
+                    QString::number(
+                        sta[i]->getDesviacionEstandar() / sta[i]->getMedia() *
+                        100) + "\t\t");
+    }
 
 
     this->ui->plainTextEdit->insertPlainText("\n\nMinimum values\n");
