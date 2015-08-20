@@ -6,6 +6,8 @@
 
 #include "fuzzy_clustering.hpp"
 
+using namespace Clustering;
+
 namespace Ui {
 class AlgoritmoVista;
 }
@@ -15,7 +17,7 @@ class AlgoritmoVista : public QWidget
     Q_OBJECT
 
 public:
-    explicit AlgoritmoVista(QWidget *parent = 0);
+    explicit AlgoritmoVista(Matrix *matriz, QWidget *parent = 0);
     ~AlgoritmoVista();
 
 private slots:
@@ -35,6 +37,8 @@ private:
     float fuzzines;
 
     float epsilon;
+
+    Matrix *matriz;
 };
 
 #endif // ALGORITMOVISTA_H

@@ -1,7 +1,7 @@
 #include "algoritmovista.h"
 #include "ui_algoritmovista.h"
 
-AlgoritmoVista::AlgoritmoVista(QWidget *parent) :
+AlgoritmoVista::AlgoritmoVista(Matrix *matriz, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::AlgoritmoVista)
 {
@@ -9,6 +9,7 @@ AlgoritmoVista::AlgoritmoVista(QWidget *parent) :
     this->setGeometry(QStyle::alignedRect(Qt::LeftToRight,Qt::AlignCenter,
                                          this->size(),
                                          qApp->desktop()->availableGeometry()));
+    this->matriz = matriz;
 }
 
 AlgoritmoVista::~AlgoritmoVista()
@@ -42,9 +43,15 @@ void AlgoritmoVista::on_maha_clicked()
 
 void AlgoritmoVista::on_clasificarBoton_clicked()
 {
+
     fuzzines = ui->fuzzyExponent->text().toFloat();
 
     cluster = ui->maxZones->text().toInt() - ui->minZones->text().toInt();
 
     epsilon = ui->convergenceCriteria->text().toFloat();
+
+    Matrix B = boost::numeric::ublas::trans(*this->matriz);
+    Fuzzy f(B, 3);
+
+    f.clustering();
 }

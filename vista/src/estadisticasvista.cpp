@@ -5,9 +5,9 @@
 #include <stdlib.h>
 #include "stats.h"
 
-#include <boost/numeric/ublas/matrix.hpp>
-#include <boost/numeric/ublas/io.hpp>
-
+//#include <boost/numeric/ublas/matrix.hpp>
+//#include <boost/numeric/ublas/io.hpp>
+using namespace Clustering;
 /**
  * @brief EstadisticasVista::EstadisticasVista
  *
@@ -17,7 +17,7 @@
  */
 EstadisticasVista::EstadisticasVista(CsvData *data, QWidget *parent) :
     QWidget(parent),
-    av(),
+    av(&this->matriz),
     ui(new Ui::VistaEstadisticas)
 {
     ui->setupUi(this);
@@ -253,4 +253,6 @@ void EstadisticasVista::on_estadisticasBoton_clicked()
         this->ui->plainTextEdit->insertPlainText("\n");
     }
 /******************************************************************************/
+    delete &covar;
+    delete &cc;
 }

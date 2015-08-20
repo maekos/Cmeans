@@ -78,6 +78,8 @@ public:
         unsigned int iteration = 0;
         while (!updateMembership() && iteration++ < num_iteration)
             computeCentroids2();
+
+
     }
 
 private:

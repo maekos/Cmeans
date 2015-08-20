@@ -120,13 +120,13 @@ bool Fuzzy::updateMembership(){
             (*p_new_membership_)(j, i) = 1 / coeff;
         }
 
-    std::cout << "New membership " << (*p_new_membership_) << std::endl;
+    //std::cout << "New membership " << (*p_new_membership_) << std::endl;
 
     if (!can_stop()){
         (*p_membership_) = (*p_new_membership_);  // switch matrices
         return false;
     }
-
+    std::cout << "Fin";
     return true;
 }
 };
