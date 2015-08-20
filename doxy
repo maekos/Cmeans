@@ -1,0 +1,67 @@
+### Project Information ###
+
+PROJECT_NAME = "MZA managament zone analysis"
+
+PROJECT_NUMBER = 0.1
+
+PROJECT_BRIEF = "Version en Qt de MZA"
+
+### Input Configuration ###
+
+INPUT = ./
+
+FILE_PATTERNS = *.h *.cpp 
+
+RECURSIVE = YES
+
+EXCLUDE_PATTERNS = */Release/* \
+		   */Tests/*   \
+		   */test/*    \
+		   */lib/*
+
+EXTRACT_ALL = NO
+
+EXTRACT_PRIVATE = YES
+
+EXTRACT_STATIC = YES
+
+
+#LAYOUT_FILE = ./doc/DoxygenLayout.xml
+
+### Output Configuration ###
+
+OUTPUT_DIRECTORY = ./doc
+
+GENERATE_RTF = NO
+
+DOXYFILE_ENCODING = UTF-8
+
+OUTPUT_LANGUAGE = Spanish
+
+SHOW_USED_FILES = NO
+
+ALPHABETICAL_INDEX = YES
+
+SHOW_INCLUDE_FILES = NO
+
+REPEAT_BRIEF = NO
+
+### Graphics Output ###
+
+HAVE_DOT = YES
+
+CLASS_DIAGRAMS = YES
+
+CLASS_GRAPH = YES
+
+CALL_GRAPH = YES
+
+CALLER_GRAPH = YES
+
+### HTML Output ###
+
+GENERATE_TREEVIEW = YES
+
+### Latex Output ###
+
+GENERATE_LATEX = NO
