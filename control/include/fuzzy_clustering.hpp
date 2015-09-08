@@ -5,10 +5,13 @@
 #include <boost/numeric/ublas/matrix_proxy.hpp>
 #include <boost/numeric/ublas/io.hpp>
 #include <stdlib.h>
+#include <QFile>
+#include <QTextStream>
+#include <QDebug>
 
 namespace Clustering{
 
-typedef float Value;
+typedef double Value;
 typedef unsigned int Index;
 typedef boost::numeric::ublas::vector<Value> Vector;
 typedef boost::numeric::ublas::zero_vector<Value> ZeroVector;
@@ -43,19 +46,20 @@ public:
         rows_(rows)
     {
         // random membership for each row
-        //
-        float normalization_factor;
+        /* Step 6 */
+        double normalization_factor;
 
         for (Index i = 0 ; i < number_points_; i++){
             normalization_factor = 0.0;
             for (Index j = 0; j < number_clusters; j++)
                 normalization_factor +=
                         (*p_membership_)(j, i) = (rand() / (RAND_MAX + 0.0));
+
             for (Index j = 0; j < number_clusters; j++)
                 (*p_membership_)(j, i) /= normalization_factor;
         }
-        std::cout << "Fuzzy membership (n_clusters X n_points)" << std::endl
-                  << " " << (*p_membership_) << std::endl;
+        //std::cout << "Fuzzy membership (n_clusters X n_points)" << std::endl
+        //        << " " << (*p_membership_) << std::endl;
 
         computeCentroids();
     };
@@ -69,17 +73,21 @@ public:
     inline bool can_stop()
     {
         Value t = norm_1( (*p_membership_)-(*p_new_membership_) );
-        std::cout << " norm t = " << t << std::endl;
+        //std::cout << " norm t = " << t << std::endl;
         return  t < epsilon_;
     }
 
     inline void clustering(unsigned int num_iteration=300){
-
         unsigned int iteration = 0;
-        while (!updateMembership() && iteration++ < num_iteration)
+        while (!updateMembership() && iteration++ < num_iteration){
             computeCentroids2();
+        }
 
+        std::cout << "Centroids (n_clusters X dim_point)"
+                  <<std::endl << " " << (*p_centroids_) << std::endl;
 
+        FPI();
+        NCE();
     }
 
 private:
@@ -95,6 +103,12 @@ private:
     Matrix * p_membership_;         // membership
     Matrix * p_new_membership_;      // new membership
     Matrix& rows_;                  // dataset
+
+    double FPI();
+
+    double NCE();
+
+    void makeFile(QString name);
 
 };
 };

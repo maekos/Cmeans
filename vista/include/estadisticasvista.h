@@ -15,7 +15,7 @@
 #include "csvdata.h"
 #include "algoritmovista.h"
 
-typedef float Value;
+typedef double Value;
 typedef boost::numeric::ublas::matrix<Value> Matrix;
 typedef boost::numeric::ublas::vector<Value> Vector;
 

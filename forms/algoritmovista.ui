@@ -114,8 +114,11 @@
            </item>
            <item row="3" column="1">
             <widget class="QDoubleSpinBox" name="convergenceCriteria">
+             <property name="decimals">
+              <number>4</number>
+             </property>
              <property name="value">
-              <double>1.000000000000000</double>
+              <double>0.000100000000000</double>
              </property>
             </widget>
            </item>
@@ -135,7 +138,7 @@
               <number>2</number>
              </property>
              <property name="value">
-              <number>6</number>
+              <number>5</number>
              </property>
             </widget>
            </item>
@@ -166,6 +169,9 @@ grather than 1.</string>
             <widget class="QDoubleSpinBox" name="fuzzyExponent">
              <property name="minimum">
               <double>1.000000000000000</double>
+             </property>
+             <property name="value">
+              <double>1.300000000000000</double>
              </property>
             </widget>
            </item>

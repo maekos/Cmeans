@@ -51,7 +51,12 @@ void AlgoritmoVista::on_clasificarBoton_clicked()
     epsilon = ui->convergenceCriteria->text().toFloat();
 
     Matrix B = boost::numeric::ublas::trans(*this->matriz);
-    Fuzzy f(B, 3);
 
-    f.clustering();
+
+    for (int i = ui->minZones->text().toInt();
+         i <= ui->maxZones->text().toInt(); i ++){
+            qDebug() << "cluster: " << i;
+            Fuzzy f(B, i, fuzzines, epsilon);
+            f.clustering();
+    }
 }

@@ -27,10 +27,11 @@ void Fuzzy::computeCentroids(){
             (*p_centroids_)(j, f) /= sum_uk[j];
 
     //std::cout << "normalizing for " << sum_uk << std::endl;
-    std::cout << "Centroids (n_clusters X dim_point)"
-              <<std::endl << " " << (*p_centroids_) << std::endl;
+    //std::cout << "Centroids (n_clusters X dim_point)"
+      //        <<std::endl << " " << (*p_centroids_) << std::endl;
 }
 
+/***************************** Step 7 *****************************************/
 void Fuzzy::computeCentroids2(){
 
     //  compute the centroid on random assignment above
@@ -49,10 +50,8 @@ void Fuzzy::computeCentroids2(){
 
     // for each cluster
     for (Index j = 0; j < number_clusters_; j++)
-
         // for each point
         for (Index i = 0 ; i < number_points_; i++)
-
             // compute u_ij_m
             u_ji_m(j, i) = pow ( (*p_membership_)(j, i), m_);
 
@@ -72,9 +71,9 @@ void Fuzzy::computeCentroids2(){
             (*p_centroids_)(j, f) /= normalization;
     }
 
-    std::cout << "normalizing for " << normalization << std::endl;
-    std::cout << "Centroids (n_clusters X dim_point)"
-              <<std::endl << " " << (*p_centroids_) << std::endl;
+    //std::cout << "normalizing for " << normalization << std::endl;
+    //std::cout << "Centroids (n_clusters X dim_point)"
+    //          <<std::endl << " " << (*p_centroids_) << std::endl;
 }
 
 bool Fuzzy::updateMembership(){
@@ -94,7 +93,7 @@ bool Fuzzy::updateMembership(){
 
                 // x_i-c_j              x_i           c_j
                 matrix_norm_one_xi_minus_cj(i, j) +=
-                        abs(rows_(i, f) - (*p_centroids_)(j, f));
+                        pow(abs(rows_(i, f) - (*p_centroids_)(j, f)),2);
 
                 //std::cout << "matrix_norm_one_xi_minus_cj("<<i<<","<<j<<")="
                 //	    << "rows_("<<i<<", "<<f<<")=" << rows_(i, f)
@@ -103,7 +102,8 @@ bool Fuzzy::updateMembership(){
                 //    << std::endl;
             }
 
-    float coeff;
+/******************************* Step 8 ***************************************/
+    double coeff;
     // for each point
     for (unsigned int i = 0 ; i < number_points_; i++)
         // for each cluster
@@ -119,14 +119,69 @@ bool Fuzzy::updateMembership(){
 
             (*p_new_membership_)(j, i) = 1 / coeff;
         }
-
+/******************************* Step 9 ***************************************/
     //std::cout << "New membership " << (*p_new_membership_) << std::endl;
 
     if (!can_stop()){
         (*p_membership_) = (*p_new_membership_);  // switch matrices
         return false;
     }
-    std::cout << "Fin";
+
     return true;
+}
+
+double Fuzzy::FPI()
+{
+    /*FPI calc*/
+    double FPI;
+    double Sum = 0;
+    for (int i = 0; i < number_clusters_ ; i++)
+    {
+        for (int k = 0; k < number_points_; k++)
+        {
+            Sum = Sum + (pow(p_membership_->at_element(i,k),2)/number_points_);
+        }
+    }
+
+    FPI = ((number_clusters_/(number_clusters_ - 1)))*(1-Sum);
+    qDebug() << "FPI: " << FPI;
+    return FPI;
+}
+
+double Fuzzy::NCE()
+{
+    double Total=0;
+
+     for (int i = 0; i < number_clusters_ ; i++)
+       {
+           for (int k = 0; k < number_points_; k++)
+           {
+             Total+=  p_membership_->at_element(i,k) *
+                     log10(p_membership_->at_element(i,k)) / number_points_;
+           }
+       }
+    double HPrime = (0-Total)/(1-(number_clusters_/number_points_));//Normaliza
+    qDebug() << "NCE: " << HPrime;
+}
+
+void Fuzzy::makeFile(QString name)
+{
+    QFile file(name);
+    if (file.open(QIODevice::Append))
+    {
+        QTextStream text_stream_for_writing(&file);
+        for(int i = 0; i < p_new_membership_->size2() ;i++)
+        {
+            for(int j = 0; j < p_new_membership_->size1();j++)
+            {
+                text_stream_for_writing << QString::number(
+                                               p_membership_->at_element(j,i)
+                                               ) + ",";
+            }
+            text_stream_for_writing << "\n";
+        }
+
+        file.close();
+    }
 }
 };

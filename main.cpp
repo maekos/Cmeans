@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     MainWindow mw;
-//
+
     //QObject::connect(&ev, SIGNAL(cambiarVistaAlgortimo()),
     //                 &av, SLOT(show()));
 

@@ -71,7 +71,7 @@ void EstadisticasVista::mostrarVistaEstadistica(QStringList selectedVectors)
     for(int col = 0; col < selectedVectors.size(); col++){
         int i = 0;
         foreach(const QString num, data->getDataFrom(selectedVectors.at(col))){
-            this->matriz.insert_element(col, i, num.toFloat());
+            this->matriz.insert_element(col, i, num.toDouble());
             i++;
         }
     }
@@ -253,6 +253,6 @@ void EstadisticasVista::on_estadisticasBoton_clicked()
         this->ui->plainTextEdit->insertPlainText("\n");
     }
 /******************************************************************************/
-    delete &covar;
-    delete &cc;
+    //delete &covar;
+    //delete &cc;
 }
