@@ -135,15 +135,15 @@ double Fuzzy::FPI()
     /*FPI calc*/
     double FPI;
     double Sum = 0;
-    for (int i = 0; i < number_clusters_ ; i++)
+    for (int k = 0; k < number_points_; k++)
     {
-        for (int k = 0; k < number_points_; k++)
+        for (int i = 0; i < number_clusters_ ; i++)
         {
             Sum = Sum + (pow(p_membership_->at_element(i,k),2)/number_points_);
         }
     }
 
-    FPI = ((number_clusters_/(number_clusters_ - 1)))*(1-Sum);
+    FPI = 1 - (((number_clusters_* Sum - 1))/(number_clusters_ - 1));
     qDebug() << "FPI: " << FPI;
     return FPI;
 }
