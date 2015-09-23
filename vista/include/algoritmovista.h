@@ -5,6 +5,7 @@
 #include <QDesktopWidget>
 
 #include "fuzzy_clustering.hpp"
+#include "csvdata.h"
 
 using namespace Clustering;
 
@@ -17,7 +18,7 @@ class AlgoritmoVista : public QWidget
     Q_OBJECT
 
 public:
-    explicit AlgoritmoVista(Matrix *matriz, QWidget *parent = 0);
+    explicit AlgoritmoVista(Matrix *matriz, CsvData *data, QWidget *parent = 0);
     ~AlgoritmoVista();
 
 private slots:
@@ -31,6 +32,8 @@ private slots:
 
 private:
     Ui::AlgoritmoVista *ui;
+
+    CsvData *data;
 
     int cluster;
 

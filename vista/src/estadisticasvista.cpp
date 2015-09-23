@@ -17,7 +17,7 @@ using namespace Clustering;
  */
 EstadisticasVista::EstadisticasVista(CsvData *data, QWidget *parent) :
     QWidget(parent),
-    av(&this->matriz),
+    av(&this->matriz, data),
     ui(new Ui::VistaEstadisticas)
 {
     ui->setupUi(this);

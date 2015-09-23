@@ -1,7 +1,7 @@
 #include "algoritmovista.h"
 #include "ui_algoritmovista.h"
 
-AlgoritmoVista::AlgoritmoVista(Matrix *matriz, QWidget *parent) :
+AlgoritmoVista::AlgoritmoVista(Matrix *matriz, CsvData *data, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::AlgoritmoVista)
 {
@@ -10,6 +10,8 @@ AlgoritmoVista::AlgoritmoVista(Matrix *matriz, QWidget *parent) :
                                           this->size(),
                                           qApp->desktop()->availableGeometry()));
     this->matriz = matriz;
+
+    this->data = data;
 }
 
 AlgoritmoVista::~AlgoritmoVista()
@@ -63,7 +65,7 @@ void AlgoritmoVista::on_clasificarBoton_clicked()
         f.clusterClassification(&ks,a);
     }
 
-    for(int j = 0; j < ks.size2();j++)
+/*    for(int j = 0; j < ks.size2();j++)
     {
         for(int i = 0 ; i <= ui->maxZones->text().toInt() -
             ui->minZones->text().toInt(); i++)
@@ -73,4 +75,6 @@ void AlgoritmoVista::on_clasificarBoton_clicked()
         std::cout << std::endl;
 
     }
+*/
 }
+
