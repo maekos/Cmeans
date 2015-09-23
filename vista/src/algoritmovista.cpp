@@ -7,8 +7,8 @@ AlgoritmoVista::AlgoritmoVista(Matrix *matriz, QWidget *parent) :
 {
     ui->setupUi(this);
     this->setGeometry(QStyle::alignedRect(Qt::LeftToRight,Qt::AlignCenter,
-                                         this->size(),
-                                         qApp->desktop()->availableGeometry()));
+                                          this->size(),
+                                          qApp->desktop()->availableGeometry()));
     this->matriz = matriz;
 }
 
@@ -45,18 +45,32 @@ void AlgoritmoVista::on_clasificarBoton_clicked()
 {
 
     fuzzines = ui->fuzzyExponent->text().toFloat();
-
     cluster = ui->maxZones->text().toInt() - ui->minZones->text().toInt();
-
     epsilon = ui->convergenceCriteria->text().toFloat();
 
-    Matrix B = boost::numeric::ublas::trans(*this->matriz);
+    Matrix B = boost::numeric::ublas::trans(*this->matriz); // Transpuesta
 
+    ks.resize(ui->maxZones->text().toInt() - ui->minZones->text().toInt() + 1,
+              this->matriz->size2()+1); // Para incluir las columnas
 
-    for (int i = ui->minZones->text().toInt();
-         i <= ui->maxZones->text().toInt(); i ++){
-            qDebug() << "cluster: " << i;
-            Fuzzy f(B, i, fuzzines, epsilon);
-            f.clustering();
+    for (int i = ui->minZones->text().toInt(), a = 0;
+         i <= ui->maxZones->text().toInt(); i ++ , a++)
+    {
+        qDebug() << "cluster: " << i;
+        ks.insert_element(a,0,i);
+        Fuzzy f(B, i, fuzzines, epsilon);
+        f.clustering();
+        f.clusterClassification(&ks,a);
+    }
+
+    for(int j = 0; j < ks.size2();j++)
+    {
+        for(int i = 0 ; i <= ui->maxZones->text().toInt() -
+            ui->minZones->text().toInt(); i++)
+        {
+            std::cout << ks.at_element(i,j) << " ";
+        }
+        std::cout << std::endl;
+
     }
 }

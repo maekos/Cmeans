@@ -70,6 +70,8 @@ public:
 
     bool updateMembership();
 
+    void clusterClassification(Matrix *ks, int cluster);
+
     inline bool can_stop()
     {
         Value t = norm_1( (*p_membership_)-(*p_new_membership_) );
@@ -90,6 +92,8 @@ public:
         NCE();
     }
 
+
+
 private:
 
     Value m_;                // fuzzyness
@@ -106,9 +110,7 @@ private:
 
     double FPI();
 
-    double NCE();
-
-    void makeFile(QString name);
+    double NCE();    
 
 };
 };

@@ -28,7 +28,7 @@ void Fuzzy::computeCentroids(){
 
     //std::cout << "normalizing for " << sum_uk << std::endl;
     //std::cout << "Centroids (n_clusters X dim_point)"
-      //        <<std::endl << " " << (*p_centroids_) << std::endl;
+    //        <<std::endl << " " << (*p_centroids_) << std::endl;
 }
 
 /***************************** Step 7 *****************************************/
@@ -102,7 +102,7 @@ bool Fuzzy::updateMembership(){
                 //    << std::endl;
             }
 
-/******************************* Step 8 ***************************************/
+    /******************************* Step 8 ***************************************/
     double coeff;
     // for each point
     for (unsigned int i = 0 ; i < number_points_; i++)
@@ -119,7 +119,7 @@ bool Fuzzy::updateMembership(){
 
             (*p_new_membership_)(j, i) = 1 / coeff;
         }
-/******************************* Step 9 ***************************************/
+    /******************************* Step 9 ***************************************/
     //std::cout << "New membership " << (*p_new_membership_) << std::endl;
 
     if (!can_stop()){
@@ -128,6 +128,25 @@ bool Fuzzy::updateMembership(){
     }
 
     return true;
+}
+
+void Fuzzy::clusterClassification(Matrix *ks, int cluster)
+{
+    double v1;
+
+    for (int j = 0; j < p_membership_->size2();j++ )
+    {        
+        v1 = p_new_membership_->at_element(0,j);
+        ks->insert_element(cluster,j+1,1);
+        for(int i = 0; i < p_membership_->size1();i++)
+        {
+            if(v1 < p_membership_->at_element(i,j))
+            {
+                v1 = p_membership_->at_element(i,j);
+                ks->insert_element(cluster,j+1, i + 1);
+            }
+        }
+    }
 }
 
 double Fuzzy::FPI()
@@ -152,36 +171,15 @@ double Fuzzy::NCE()
 {
     double Total=0;
 
-     for (int i = 0; i < number_clusters_ ; i++)
-       {
-           for (int k = 0; k < number_points_; k++)
-           {
-             Total+=  p_membership_->at_element(i,k) *
-                     log10(p_membership_->at_element(i,k)) / number_points_;
-           }
-       }
+    for (int i = 0; i < number_clusters_ ; i++)
+    {
+        for (int k = 0; k < number_points_; k++)
+        {
+            Total+=  p_membership_->at_element(i,k) *
+                    log10(p_membership_->at_element(i,k)) / number_points_;
+        }
+    }
     double HPrime = (0-Total)/(1-(number_clusters_/number_points_));//Normaliza
     qDebug() << "NCE: " << HPrime;
-}
-
-void Fuzzy::makeFile(QString name)
-{
-    QFile file(name);
-    if (file.open(QIODevice::Append))
-    {
-        QTextStream text_stream_for_writing(&file);
-        for(int i = 0; i < p_new_membership_->size2() ;i++)
-        {
-            for(int j = 0; j < p_new_membership_->size1();j++)
-            {
-                text_stream_for_writing << QString::number(
-                                               p_membership_->at_element(j,i)
-                                               ) + ",";
-            }
-            text_stream_for_writing << "\n";
-        }
-
-        file.close();
-    }
 }
 };

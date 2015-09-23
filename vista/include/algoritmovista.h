@@ -39,6 +39,8 @@ private:
     float epsilon;
 
     Matrix *matriz;
+
+    Matrix ks; // Guarda la clasificacion de las muestras de acuerdo a las zonas
 };
 
 #endif // ALGORITMOVISTA_H
