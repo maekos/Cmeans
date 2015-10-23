@@ -28,7 +28,7 @@ CsvData::CsvData(QString file)
         this->columnNames.append(line.split(',').at(i));
         this->map.insert(line.split(',').at(i),i);
     }
-
+    this->rows = 0;
     /* Obtiene el numero de filas del archivo */
     while (!this->file.atEnd()) {
         this->file.readLine();
@@ -46,6 +46,11 @@ CsvData::CsvData(QString file)
 CsvData::~CsvData()
 {
     this->file.close();
+}
+
+QString CsvData::getFileName()
+{
+    return(this->file.fileName());
 }
 
 /**
@@ -69,7 +74,7 @@ int CsvData::getColumnCount()
  */
 int CsvData::getRowCount()
 {
-    return (this->rows-1);
+    return (this->rows-1); // Resto nombre
 }
 
 /**
@@ -105,6 +110,35 @@ QStringList CsvData::getDataAt(int column)
     }
     this->file.seek(0);
     return wordList;
+}
+
+/**
+ * @brief CsvData::getDataAt
+ * @param col
+ * @param row
+ * @return
+ */
+QString CsvData::getDataAt(int col, int row)
+{
+    int it;
+    QString data;
+    QByteArray line;
+
+    if(col <= this->columns && row <= this->rows)
+    {
+        for (it = 0; it <= row; it++)
+        {
+            line = this->file.readLine();
+        }
+    }
+    else
+    {
+        return NULL;
+    }
+
+    data = line.split(',').at(col);
+    this->file.seek(0);
+    return data;
 }
 
 /**

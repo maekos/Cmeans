@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QDesktopWidget>
+#include <QProgressDialog>
 
 #include "fuzzy_clustering.hpp"
 #include "csvdata.h"
@@ -21,6 +22,8 @@ public:
     explicit AlgoritmoVista(Matrix *matriz, CsvData *data, QWidget *parent = 0);
     ~AlgoritmoVista();
 
+    void makeFile(QString file = "default.csv");
+
 private slots:
     void on_eucli_clicked();
 
@@ -32,6 +35,8 @@ private slots:
 
 private:
     Ui::AlgoritmoVista *ui;
+
+    QProgressDialog download, clasify;
 
     CsvData *data;
 

@@ -24,8 +24,10 @@ public:
     CsvData(QString file);
     ~CsvData();
 
+    QString getFileName();
     QStringList getColumnNames();
     QStringList getDataAt(int column);
+    QString getDataAt(int col, int row);
     QStringList getDataFrom(const QString columnName);
     int getColumnCount();
     int getRowCount();
